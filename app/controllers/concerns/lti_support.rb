@@ -70,6 +70,7 @@ module Concerns
     def _attempt_uniq_email(user)
       count = 0 # don't go infinite
       while !safe_save_email(user) && count < 10
+        domain = Rails.application.secrets.application_url
         user.email = generate_email(domain)
         count = count + 1
       end
