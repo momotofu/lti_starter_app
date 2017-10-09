@@ -141,10 +141,11 @@ export class InstallPane extends React.Component {
             <i className="i-search" />
           </div>
           {
-            !_.isEmpty(this.props.loadingCourses) ?
-              <div className="c-modal--error loading">
-                <div className="c-loading-icon" />
-              </div> : null
+            //  !_.isEmpty(this.props.loadingCourses) ?
+            //    <div className="c-modal--error loading">
+            //      <div className="c-loading-icon" />
+            //    </div> : null
+            null
           }
           <CourseInstalls
             applicationInstance={applicationInstance}

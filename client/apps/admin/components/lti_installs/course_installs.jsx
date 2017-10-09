@@ -18,6 +18,7 @@ export default function CourseInstalls(props) {
         installedTool={installedTool}
         canvasRequest={props.canvasRequest}
         applicationInstance={props.applicationInstance}
+        installDisabled={_.isUndefined(course.external_tools)}
       />
     );
   });
@@ -31,7 +32,7 @@ export default function CourseInstalls(props) {
         </tr>
       </thead>
       <tbody>
-        {_.isEmpty(props.loadingCourses) ? courses : null}
+        { courses }
       </tbody>
     </table>
   );

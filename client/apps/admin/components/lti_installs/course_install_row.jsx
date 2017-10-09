@@ -12,6 +12,7 @@ export default function CourseInstallRow(props) {
     installedTool,
     canvasRequest,
     applicationInstance,
+    installDisabled,
   } = props;
 
   function installInCourse() {
@@ -67,6 +68,7 @@ export default function CourseInstallRow(props) {
         <button
           className="c-btn c-btn--gray"
           onClick={() => installInCourse(installedTool, courseId)}
+          disabled={installDisabled}
         >
           {installText}
         </button>

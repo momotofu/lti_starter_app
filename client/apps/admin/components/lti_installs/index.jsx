@@ -36,6 +36,7 @@ function select(state, props) {
     userName            : state.settings.display_name,
     loadingCourses      : state.loadingCourses,
     sites               : state.sites,
+    currentAccount      : state.application.currentAccount,
   };
 }
 
@@ -63,7 +64,6 @@ export class Index extends React.Component {
   constructor() {
     super();
     this.state = {
-      currentAccount: null,
       onlyShowInstalled: false,
     };
   }
@@ -82,7 +82,7 @@ export class Index extends React.Component {
   }
 
   componentWillReceiveProps() {
-    if (_.isNull(this.state.currentAccount) && !_.isUndefined(this.props.rootAccount)) {
+    if (_.isNull(this.props.currentAccount) && !_.isUndefined(this.props.rootAccount)) {
       this.setAccountActive(this.props.rootAccount);
     }
   }
@@ -122,11 +122,7 @@ export class Index extends React.Component {
       );
     }
 
-    this.props.updateCurrentAccount(account.id);
-
-    this.setState({
-      currentAccount: account,
-    });
+    this.props.updateCurrentAccount(account);
   }
 
   loadExternalTools(courseId) {
@@ -143,10 +139,10 @@ export class Index extends React.Component {
     const backTo = `/applications/${this.props.params.applicationId}/application_instances`;
     let accountCourses = this.props.courses;
 
-    if (this.state.currentAccount) {
+    if (this.props.currentAccount) {
       accountCourses = _.filter(
         this.props.courses,
-        course => this.state.currentAccount.id === course.account_id
+        course => this.props.currentAccount.id === course.account_id
       );
     }
 
@@ -155,7 +151,7 @@ export class Index extends React.Component {
         <Heading backTo={backTo} />
         <div className="o-contain">
           <Sidebar
-            currentAccount={this.state.currentAccount}
+            currentAccount={this.props.currentAccount}
             accounts={this.props.accounts}
             application={this.props.applications[applicationId]}
             applicationInstance={this.props.applicationInstance}
@@ -170,7 +166,7 @@ export class Index extends React.Component {
             loadingCourses={this.props.loadingCourses}
             applicationInstance={this.props.applicationInstance}
             courses={accountCourses}
-            account={this.state.currentAccount}
+            account={this.props.currentAccount}
             loadExternalTools={courseId => this.loadExternalTools(courseId)}
             onlyShowInstalled={this.state.onlyShowInstalled}
           />
