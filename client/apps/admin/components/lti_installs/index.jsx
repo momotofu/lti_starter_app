@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import ReactModal from 'react-modal';
 import * as ApplicationInstanceActions from '../../actions/application_instances';
+import * as ApplicationActions from '../../actions/application';
 import Heading from '../common/heading';
 import Sidebar from './sidebar';
 import InstallPane from './install_pane';
@@ -121,6 +122,8 @@ export class Index extends React.Component {
       );
     }
 
+    this.props.updateCurrentAccount(account.id);
+
     this.setState({
       currentAccount: account,
     });
@@ -188,5 +191,5 @@ export class Index extends React.Component {
 
 export default connect(
   select,
-  { canvasRequest, ...ApplicationInstanceActions }
+  { canvasRequest, ...ApplicationInstanceActions, ...ApplicationActions }
 )(Index);

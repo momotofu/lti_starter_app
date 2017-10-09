@@ -3,7 +3,7 @@ import wrapper from '../../../libs/constants/wrapper';
 // Local actions
 const actions = [
   'UPDATE_DISPLAY_CONTEXT',
-  'UPDATE_CURRENT_ACCOUNT,'
+  'UPDATE_CURRENT_ACCOUNT'
 ];
 
 // Actions that make an api request
