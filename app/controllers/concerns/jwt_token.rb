@@ -46,6 +46,11 @@ module Concerns
       jwt_lti_roles.join(",")
     end
 
+    def jwt_lms_user_id
+      token = decoded_jwt_token(request)
+      token["lms_user_id"]
+    end
+
     protected
 
     def encoded_token(req)

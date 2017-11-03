@@ -93,10 +93,43 @@ module Concerns
 
     def custom_api_checks_pass(type: nil)
       # Add custom logic to protect specific api calls
+      # Admins can do as they wish
+      return true if (ADMIN_ROLES & current_user_roles(context_id: context_id)).present?
+
+      # Instructors can masquerade as a student so they get a pass here, but all other
+      # users can only masquerade as themselves
+      if (INSTRUCTOR_ROLES & current_user_roles(context_id: context_id)).empty?
+        # Only allow the request to masquerade as the user provided in the initial LTI request
+        if params[:as_user_id].present?
+          if jwt_lms_user_id.to_i != params[:as_user_id].to_i
+            raise CanvasApiPermissionFailure,
+                  "User id in as_user_id must match the user id provided during the LTI launch for #{type}"
+          end
+        end
+      end
+
+      course_permissions_pass(type)
+    end
+
+    def course_permissions_pass(type)
+      # These are the API endpoints for which we check for a course id match
+      return true unless [
+        "LIST_ASSIGNMENTS",
+        "CREATE_ASSIGNMENT",
+        "DELETE_ASSIGNMENT",
+        "EDIT_ASSIGNMENT",
+      ].include?(type)
+      if jwt_lms_course_id.to_i != params[:course_id].to_i
+        raise CanvasApiPermissionFailure,
+              "Course id must match the course id provided during the LTI launch for #{type}"
+      end
       true
     end
 
     class CanvasApiTokenRequired < LMS::Canvas::CanvasException
+    end
+
+    class CanvasApiPermissionFailure < LMS::Canvas::CanvasException
     end
 
   end

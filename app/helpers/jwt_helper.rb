@@ -10,6 +10,7 @@ module JwtHelper
       attrs[:lti_roles] = current_user_roles(context_id: params[:context_id])
       attrs[:context_id] = params[:context_id]
       attrs[:lms_course_id] = params[:custom_canvas_course_id]
+      attrs[:lms_user_id] = params[:lms_user_id]
     end
     AuthToken.issue_token(attrs)
   end
