@@ -4,7 +4,6 @@ module Lti
       "administrator", # Internal (non-LTI) role
       "urn:lti:sysrole:ims/lis/SysAdmin",
       "urn:lti:sysrole:ims/lis/Administrator",
-      "urn:lti:instrole:ims/lis/Administrator",
     ].freeze
 
     INSTRUCTOR_ROLES = [
